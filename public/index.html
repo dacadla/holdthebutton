@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hold The Button</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@next/css/pico.min.css"/>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div x-data="{ startTime: null, score: null, intervalId: null, 
+            startCounting() { 
+                this.startTime = new Date();
+                this.intervalId = setInterval(() => {
+                    this.score = ((new Date() - this.startTime) / 1000).toFixed(2);
+                }, 100);
+            },
+            stopCounting() { 
+                clearInterval(this.intervalId);
+                this.intervalId = null;
+            }
+        }" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+        <button 
+            @mousedown="startCounting" 
+            @mouseup="stopCounting" 
+            @mouseleave="stopCounting"
+        >
+            Pin me down daddy
+        </button>
+        <div x-show="score !== null">
+            Score: <span x-text="score"></span> seconds
+        </div>
+    </div>
+</body>
+</html>
