@@ -18,7 +18,6 @@
     </style>
 </head>
 <body>
-    <p>Doesn't work on mobile yet</p>
     <div x-data="{ startTime: null, score: null, intervalId: null, 
             startCounting() { 
                 this.startTime = new Date();
@@ -31,6 +30,7 @@
                 this.intervalId = null;
             }
         }" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+        <p>Doesn't work on mobile yet</p>
         <button 
             @mousedown="startCounting" 
             @mouseup="stopCounting" 
