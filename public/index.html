@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hold The Button</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@next/css/pico.min.css"/>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="stylesheet" href="css/pico.min.css"/>
     <style>
         body {
             display: flex;
@@ -18,31 +17,41 @@
     </style>
 </head>
 <body>
-    <div x-data="{ startTime: null, score: null, intervalId: null, 
-            startCounting() { 
-                this.startTime = new Date();
-                this.intervalId = setInterval(() => {
-                    this.score = ((new Date() - this.startTime) / 1000).toFixed(2);
-                }, 100);
-            },
-            stopCounting() { 
-                clearInterval(this.intervalId);
-                this.intervalId = null;
-            }
-        }" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
-        <button 
-            @mousedown="startCounting" 
-            @mouseup="stopCounting" 
-            @mouseleave="stopCounting"
-            @touchstart="startCounting" 
-            @touchend="stopCounting" 
-            @touchcancel="stopCounting"
-        >
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+        <button id="hold-button">
             Pin me down daddy
         </button>
-        <div x-show="score !== null">
-            Score: <span x-text="score"></span> seconds
+        <div id="score-display" style="display: none;">
+            Score: <span id="score"></span> seconds
         </div>
     </div>
+
+    <script>
+        const button = document.getElementById('hold-button');
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreSpan = document.getElementById('score');
+        let startTime = null;
+        let intervalId = null;
+
+        const startCounting = () => {
+            startTime = new Date();
+            scoreDisplay.style.display = 'block';
+            intervalId = setInterval(() => {
+                scoreSpan.textContent = ((new Date() - startTime) / 1000).toFixed(2);
+            }, 100);
+        };
+
+        const stopCounting = () => {
+            clearInterval(intervalId);
+            intervalId = null;
+        };
+
+        button.addEventListener('mousedown', startCounting);
+        button.addEventListener('mouseup', stopCounting);
+        button.addEventListener('mouseleave', stopCounting);
+        button.addEventListener('touchstart', startCounting);
+        button.addEventListener('touchend', stopCounting);
+        button.addEventListener('touchcancel', stopCounting);
+    </script>
 </body>
 </html>
