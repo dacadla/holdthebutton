@@ -35,6 +35,9 @@
             @mousedown="startCounting" 
             @mouseup="stopCounting" 
             @mouseleave="stopCounting"
+            @touchstart="startCounting" 
+            @touchend="stopCounting" 
+            @touchcancel="stopCounting"
         >
             Pin me down daddy
         </button>
